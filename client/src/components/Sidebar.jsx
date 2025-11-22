@@ -48,7 +48,7 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
   };
 
   const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', to: '/' },
+    { icon: LayoutDashboard, label: 'Dashboard', to: '/dashboard' },
     { icon: CheckCircle2, label: 'Tasks', to: '/tasks' },
     { icon: Bell, label: 'Notifications', to: '/notifications' },
     { icon: Settings, label: 'Settings', to: '/settings' },
