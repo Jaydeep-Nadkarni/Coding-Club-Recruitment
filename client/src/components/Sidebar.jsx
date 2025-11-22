@@ -88,7 +88,7 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
         <div className={`h-16 flex items-center ${collapsed ? 'justify-center' : 'justify-between px-4'} border-b border-dark-200 dark:border-dark-700 bg-white dark:bg-dark-800`}>
           {!collapsed && (
             <span className="text-lg font-bold text-dark-900 dark:text-white truncate">
-              AuthDash
+              TaskMaster
             </span>
           )}
           {!isMobile && (

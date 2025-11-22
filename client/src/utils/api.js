@@ -95,4 +95,14 @@ export const notificationAPI = {
   },
 };
 
-export default { taskAPI, notificationAPI };
+/**
+ * AI API utilities
+ */
+export const aiAPI = {
+  generateReport: async () => {
+    const response = await api.post('/ai/generate-report');
+    return response.data;
+  },
+};
+
+export default { taskAPI, notificationAPI, aiAPI };

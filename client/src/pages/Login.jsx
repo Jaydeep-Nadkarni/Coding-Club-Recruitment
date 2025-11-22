@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Mail, Lock, AlertCircle } from 'lucide-react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useAuth } from '../context/AuthContext';
@@ -49,7 +49,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       await login(formData.email, formData.password);
-      navigate('/'); // Redirect to dashboard
+      navigate('/dashboard'); // Redirect to dashboard
     } catch (error) {
       setApiError(error.message || 'Invalid email or password');
     } finally {
@@ -58,25 +58,30 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-dark-50 dark:bg-dark-900 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
-      <div className="max-w-md w-full space-y-8 bg-white dark:bg-dark-800 p-8 rounded-xl shadow-2xl border border-dark-200 dark:border-dark-700">
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-dark-900 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+      <div className="max-w-md w-full space-y-8 bg-white dark:bg-dark-800 p-8 rounded-lg border border-dark-100 dark:border-dark-700 shadow-lg">
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-dark-900 dark:text-white">
+          <div className="flex justify-center mb-4">
+            <div className="p-3 bg-primary-50 dark:bg-dark-700 rounded-lg">
+              <Lock size={24} className="text-primary-600 dark:text-primary-400" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-dark-900 dark:text-white">
             Welcome Back
           </h2>
           <p className="mt-2 text-sm text-dark-600 dark:text-dark-400">
-            Sign in to access your dashboard
+            Sign in to your account
           </p>
         </div>
 
         {apiError && (
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 flex items-center gap-3 animate-fade-in">
-            <AlertCircle className="h-5 w-5 text-editor-red" />
+            <AlertCircle className="h-5 w-5 text-editor-red flex-shrink-0" />
             <p className="text-sm text-editor-red">{apiError}</p>
           </div>
         )}
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <Input
               label="Email Address"
@@ -85,8 +90,9 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               error={errors.email}
-              placeholder="you@example.com"
+              placeholder="name@example.com"
               autoComplete="email"
+              icon={Mail}
             />
 
             <Input
@@ -99,6 +105,7 @@ const Login = () => {
               placeholder="••••••••"
               autoComplete="current-password"
               showPasswordToggle={true}
+              icon={Lock}
             />
           </div>
 
@@ -116,8 +123,8 @@ const Login = () => {
             </div>
 
             <div className="text-sm">
-              <a href="#" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300">
-                Forgot password?
+              <a href="#" className="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
+                Forgot?
               </a>
             </div>
           </div>
@@ -135,7 +142,7 @@ const Login = () => {
             <span className="text-dark-600 dark:text-dark-400">
               Don't have an account?{' '}
             </span>
-            <Link to="/signup" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300">
+            <Link to="/signup" className="font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
               Sign up
             </Link>
           </div>

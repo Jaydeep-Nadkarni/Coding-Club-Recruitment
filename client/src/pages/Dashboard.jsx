@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle2, Clock, AlertCircle } from 'lucide-react';
+import { CheckCircle2, Clock, AlertCircle, Sparkles, ClipboardList, Zap, CheckCircle, TrendingUp, Hand } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTaskRefresh } from '../context/TaskContext';
 import Layout from '../components/Layout';
 import Breadcrumbs from '../components/Breadcrumbs';
 import Skeleton from '../components/Skeleton';
-import { taskAPI } from '../utils/api';
+import AIReportModal from '../components/AIReportModal';
+import { taskAPI, aiAPI } from '../utils/api';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -14,6 +15,11 @@ const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // AI Report State
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [reportData, setReportData] = useState('');
+  const [isReportLoading, setIsReportLoading] = useState(false);
 
   useEffect(() => {
     // Fetch dashboard data on mount and when refreshTrigger changes
@@ -40,6 +46,21 @@ const Dashboard = () => {
       setTasks([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGenerateReport = async () => {
+    setIsReportModalOpen(true);
+    setIsReportLoading(true);
+    try {
+      const response = await aiAPI.generateReport();
+      setReportData(response.report);
+    } catch (err) {
+      console.error('Failed to generate report:', err);
+      const errorMessage = err.response?.data?.message || 'Failed to generate report. Please try again later.';
+      setReportData(errorMessage);
+    } finally {
+      setIsReportLoading(false);
     }
   };
 
@@ -93,13 +114,22 @@ const Dashboard = () => {
       <Breadcrumbs />
 
       {/* Welcome Section */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-dark-900 dark:text-white mb-2">
-          Welcome back, {user?.name?.split(' ')[0]}! 👋
-        </h1>
-        <p className="text-dark-600 dark:text-dark-400">
-          Here's what's happening with your tasks today.
-        </p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-dark-900 dark:text-white mb-2 flex items-center gap-2">
+            Welcome back, {user?.name?.split(' ')[0]}! <Hand className="text-yellow-500 animate-wave" size={24} />
+          </h1>
+          <p className="text-dark-600 dark:text-dark-400">
+            Here's what's happening with your tasks today.
+          </p>
+        </div>
+        <button
+          onClick={handleGenerateReport}
+          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors shadow-lg shadow-indigo-500/20"
+        >
+          <Sparkles size={18} />
+          Generate AI Report
+        </button>
       </div>
 
       {/* Error Message */}
@@ -125,25 +155,25 @@ const Dashboard = () => {
             { 
               label: 'Total Tasks', 
               value: stats.total || 0, 
-              icon: '📋',
+              icon: <ClipboardList size={24} />,
               color: 'text-primary-500' 
             },
             { 
               label: 'Active Tasks', 
               value: stats.inProgress || 0, 
-              icon: '⚡',
+              icon: <Zap size={24} />,
               color: 'text-secondary-500' 
             },
             { 
               label: 'Completed', 
               value: stats.completed || 0, 
-              icon: '✓', 
+              icon: <CheckCircle size={24} />, 
               color: 'text-editor-green' 
             },
             { 
               label: 'Completion Rate', 
               value: `${completionRate}%`, 
-              icon: '📈',
+              icon: <TrendingUp size={24} />,
               color: 'text-editor-cyan' 
             },
           ].map((stat, index) => (
@@ -153,7 +183,7 @@ const Dashboard = () => {
             >
               <div className="flex items-start justify-between mb-3">
                 <p className="text-sm font-semibold text-dark-600 dark:text-dark-400 uppercase tracking-wide">{stat.label}</p>
-                <span className="text-2xl">{stat.icon}</span>
+                <span className={`${stat.color}`}>{stat.icon}</span>
               </div>
               <h3 className="text-4xl font-bold text-dark-900 dark:text-white">{stat.value}</h3>
             </div>
@@ -268,6 +298,13 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      <AIReportModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        report={reportData}
+        isLoading={isReportLoading}
+      />
     </Layout>
   );
 };

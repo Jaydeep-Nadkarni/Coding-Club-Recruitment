@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { AlertCircle, User, Mail, Lock, CheckCircle2, Circle } from 'lucide-react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useAuth } from '../context/AuthContext';
@@ -94,7 +94,7 @@ const Signup = () => {
     setIsLoading(true);
     try {
       await signup(formData.name, formData.email, formData.password);
-      navigate('/'); // Redirect to dashboard
+      navigate('/dashboard'); // Redirect to dashboard
     } catch (error) {
       setApiError(error.message || 'Failed to create account');
     } finally {
@@ -103,10 +103,15 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-dark-50 dark:bg-dark-900 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
-      <div className="max-w-md w-full space-y-8 bg-white dark:bg-dark-800 p-8 rounded-xl shadow-2xl border border-dark-200 dark:border-dark-700">
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-dark-900 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+      <div className="max-w-md w-full space-y-8 bg-white dark:bg-dark-800 p-8 rounded-lg border border-dark-100 dark:border-dark-700 shadow-2xl">
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-dark-900 dark:text-white">
+          <div className="flex justify-center mb-4">
+            <div className="p-3 bg-primary-50 dark:bg-dark-700 rounded-lg">
+              <User size={24} className="text-primary-600 dark:text-primary-400" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-dark-900 dark:text-white">
             Create Account
           </h2>
           <p className="mt-2 text-sm text-dark-600 dark:text-dark-400">
@@ -116,12 +121,12 @@ const Signup = () => {
 
         {apiError && (
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 flex items-center gap-3 animate-fade-in">
-            <AlertCircle className="h-5 w-5 text-editor-red" />
+            <AlertCircle className="h-5 w-5 text-editor-red flex-shrink-0" />
             <p className="text-sm text-editor-red">{apiError}</p>
           </div>
         )}
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <Input
               label="Full Name"
@@ -130,7 +135,8 @@ const Signup = () => {
               value={formData.name}
               onChange={handleChange}
               error={errors.name}
-              placeholder="Enter your full name"
+              placeholder="John Doe"
+              icon={User}
             />
 
             <Input
@@ -140,7 +146,8 @@ const Signup = () => {
               value={formData.email}
               onChange={handleChange}
               error={errors.email}
-              placeholder="you@example.com"
+              placeholder="name@example.com"
+              icon={Mail}
             />
 
             <Input
@@ -152,11 +159,12 @@ const Signup = () => {
               error={errors.password}
               placeholder="••••••••"
               showPasswordToggle={true}
+              icon={Lock}
             />
             
             {formData.password && (
-              <div className="mt-2">
-                <div className="flex items-center gap-2 mb-2">
+              <div className="mt-3 p-3 bg-dark-50 dark:bg-dark-700/50 rounded-lg">
+                <div className="flex items-center gap-2 mb-3">
                   <div className="flex-1 h-2 bg-dark-200 dark:bg-dark-700 rounded-full overflow-hidden">
                     <div
                       className={`h-full transition-all ${
@@ -166,7 +174,7 @@ const Signup = () => {
                       }`}
                     />
                   </div>
-                  <span className={`text-xs font-medium ${
+                  <span className={`text-xs font-semibold whitespace-nowrap ${
                     passwordStrength.level === 'strong' ? 'text-editor-green' :
                     passwordStrength.level === 'medium' ? 'text-yellow-600 dark:text-yellow-400' :
                     'text-editor-red'
@@ -174,26 +182,58 @@ const Signup = () => {
                     {passwordStrength.message}
                   </span>
                 </div>
-                <div className="text-xs text-dark-500 dark:text-dark-400 space-y-1">
-                  <p>Password should contain:</p>
-                  <ul className="ml-2 space-y-0.5">
-                    <li className={/[a-z]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
-                      ✓ Lowercase letters
-                    </li>
-                    <li className={/[A-Z]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
-                      ✓ Uppercase letters
-                    </li>
-                    <li className={/[0-9]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
-                      ✓ Numbers
-                    </li>
-                    <li className={/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
-                      ✓ Special characters
-                    </li>
-                    <li className={formData.password.length >= 10 ? 'text-editor-green' : 'text-dark-500'}>
-                      ✓ At least 10 characters
-                    </li>
-                  </ul>
-                </div>
+                <ul className="space-y-1.5">
+                  <li className="flex items-center gap-2 text-xs">
+                    {/[a-z]/.test(formData.password) ? (
+                      <CheckCircle2 size={14} className="text-editor-green flex-shrink-0" />
+                    ) : (
+                      <Circle size={14} className="text-dark-400 flex-shrink-0" />
+                    )}
+                    <span className={/[a-z]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
+                      Lowercase letter
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2 text-xs">
+                    {/[A-Z]/.test(formData.password) ? (
+                      <CheckCircle2 size={14} className="text-editor-green flex-shrink-0" />
+                    ) : (
+                      <Circle size={14} className="text-dark-400 flex-shrink-0" />
+                    )}
+                    <span className={/[A-Z]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
+                      Uppercase letter
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2 text-xs">
+                    {/[0-9]/.test(formData.password) ? (
+                      <CheckCircle2 size={14} className="text-editor-green flex-shrink-0" />
+                    ) : (
+                      <Circle size={14} className="text-dark-400 flex-shrink-0" />
+                    )}
+                    <span className={/[0-9]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
+                      Number
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2 text-xs">
+                    {/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password) ? (
+                      <CheckCircle2 size={14} className="text-editor-green flex-shrink-0" />
+                    ) : (
+                      <Circle size={14} className="text-dark-400 flex-shrink-0" />
+                    )}
+                    <span className={/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
+                      Special character
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2 text-xs">
+                    {formData.password.length >= 10 ? (
+                      <CheckCircle2 size={14} className="text-editor-green flex-shrink-0" />
+                    ) : (
+                      <Circle size={14} className="text-dark-400 flex-shrink-0" />
+                    )}
+                    <span className={formData.password.length >= 10 ? 'text-editor-green' : 'text-dark-500'}>
+                      At least 10 characters
+                    </span>
+                  </li>
+                </ul>
               </div>
             )}
 
@@ -206,6 +246,7 @@ const Signup = () => {
               error={errors.confirmPassword}
               placeholder="••••••••"
               showPasswordToggle={true}
+              icon={Lock}
             />
           </div>
 
@@ -222,7 +263,7 @@ const Signup = () => {
             <span className="text-dark-600 dark:text-dark-400">
               Already have an account?{' '}
             </span>
-            <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300">
+            <Link to="/login" className="font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
               Sign in
             </Link>
           </div>

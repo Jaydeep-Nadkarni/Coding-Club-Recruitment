@@ -7,6 +7,7 @@ import authRoutes from './routes/auth.js'
 import userRoutes from './routes/users.js'
 import taskRoutes from './routes/tasks.js'
 import notificationRoutes from './routes/notifications.js'
+import aiRoutes from './routes/ai.js'
 
 // Load environment variables
 dotenv.config()
@@ -40,6 +41,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/tasks', taskRoutes)
 app.use('/api/notifications', notificationRoutes)
+app.use('/api/ai', aiRoutes)
 
 // Global error handler
 app.use((err, req, res, next) => {

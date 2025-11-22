@@ -109,8 +109,8 @@ const TopNav = ({ onMenuClick }) => {
         </button>
         
         <div className="hidden md:flex items-center text-primary-600 dark:text-primary-400 font-bold text-xl mr-8">
-          <span className="mr-2">⚡</span>
-          AuthDash
+          <span className="mr-2"></span>
+          TaskMaster
         </div>
 
         {/* Search Bar */}
