@@ -58,7 +58,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-light-100 dark:bg-dark-900 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div className="min-h-screen flex items-center justify-center bg-dark-50 dark:bg-dark-900 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-md w-full space-y-8 bg-white dark:bg-dark-800 p-8 rounded-xl shadow-2xl border border-dark-200 dark:border-dark-700">
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-extrabold text-dark-900 dark:text-white">
@@ -98,6 +98,7 @@ const Login = () => {
               error={errors.password}
               placeholder="••••••••"
               autoComplete="current-password"
+              showPasswordToggle={true}
             />
           </div>
 

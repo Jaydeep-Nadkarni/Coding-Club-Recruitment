@@ -16,7 +16,7 @@ const Settings = () => {
 
       <div className="max-w-4xl mx-auto">
         <div className="bg-white dark:bg-dark-800 rounded-lg border border-dark-200 dark:border-dark-700 shadow-sm overflow-hidden">
-          <div className="p-6 border-b border-dark-200 dark:border-dark-700 bg-light-50 dark:bg-dark-800/50">
+          <div className="p-6 border-b border-dark-200 dark:border-dark-700 bg-dark-50 dark:bg-dark-800/50">
             <h1 className="text-2xl font-bold text-dark-900 dark:text-white">Appearance Settings</h1>
             <p className="text-dark-600 dark:text-dark-400 mt-1">Customize the look and feel of your workspace</p>
           </div>
@@ -31,12 +31,12 @@ const Settings = () => {
                   className={`
                     flex-1 p-4 rounded-lg border-2 transition-all
                     ${theme === 'light' 
-                      ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20' 
-                      : 'border-dark-200 dark:border-dark-700 hover:border-dark-300 dark:hover:border-dark-600'
+                      ? 'border-primary-500 bg-primary-50 dark:bg-dark-700' 
+                      : 'border-dark-200 dark:border-dark-700 hover:border-dark-300 dark:hover:border-dark-600 bg-white dark:bg-dark-800'
                     }
                   `}
                 >
-                  <div className="h-24 bg-light-100 rounded mb-3 border border-dark-200"></div>
+                  <div className="h-24 bg-dark-50 dark:bg-dark-900 rounded mb-3 border border-dark-200"></div>
                   <div className="font-medium text-dark-900 dark:text-white">Light Mode</div>
                 </button>
                 <button
@@ -44,12 +44,12 @@ const Settings = () => {
                   className={`
                     flex-1 p-4 rounded-lg border-2 transition-all
                     ${theme === 'dark' 
-                      ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20' 
-                      : 'border-dark-200 dark:border-dark-700 hover:border-dark-300 dark:hover:border-dark-600'
+                      ? 'border-primary-500 bg-primary-50 dark:bg-dark-700' 
+                      : 'border-dark-200 dark:border-dark-700 hover:border-dark-300 dark:hover:border-dark-600 bg-white dark:bg-dark-800'
                     }
                   `}
                 >
-                  <div className="h-24 bg-dark-900 rounded mb-3 border border-dark-700"></div>
+                  <div className="h-24 bg-dark-900 dark:bg-dark-900 rounded mb-3 border border-dark-700"></div>
                   <div className="font-medium text-dark-900 dark:text-white">Dark Mode</div>
                 </button>
               </div>
@@ -66,8 +66,8 @@ const Settings = () => {
                     className={`
                       p-4 rounded-lg border-2 transition-all flex items-center justify-between
                       ${colorScheme === scheme 
-                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20' 
-                        : 'border-dark-200 dark:border-dark-700 hover:border-dark-300 dark:hover:border-dark-600'
+                        ? 'border-primary-500 bg-primary-50 dark:bg-dark-700' 
+                        : 'border-dark-200 dark:border-dark-700 hover:border-dark-300 dark:hover:border-dark-600 bg-white dark:bg-dark-800'
                       }
                     `}
                   >

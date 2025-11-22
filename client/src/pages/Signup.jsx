@@ -18,6 +18,39 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
 
+  // Calculate password strength
+  const calculatePasswordStrength = (password) => {
+    if (!password) return { level: 'weak', score: 0, message: '' };
+    
+    let score = 0;
+    
+    // Length check
+    if (password.length >= 6) score += 1;
+    if (password.length >= 10) score += 1;
+    if (password.length >= 14) score += 1;
+    
+    // Character variety checks
+    if (/[a-z]/.test(password)) score += 1;
+    if (/[A-Z]/.test(password)) score += 1;
+    if (/[0-9]/.test(password)) score += 1;
+    if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) score += 1;
+    
+    let level = 'weak';
+    let message = 'Weak';
+    
+    if (score >= 5) {
+      level = 'strong';
+      message = 'Strong';
+    } else if (score >= 3) {
+      level = 'medium';
+      message = 'Medium';
+    }
+    
+    return { level, score, message };
+  };
+
+  const passwordStrength = calculatePasswordStrength(formData.password);
+
   const validateForm = () => {
     const newErrors = {};
     
@@ -70,7 +103,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-light-100 dark:bg-dark-900 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div className="min-h-screen flex items-center justify-center bg-dark-50 dark:bg-dark-900 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-md w-full space-y-8 bg-white dark:bg-dark-800 p-8 rounded-xl shadow-2xl border border-dark-200 dark:border-dark-700">
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-extrabold text-dark-900 dark:text-white">
@@ -97,7 +130,7 @@ const Signup = () => {
               value={formData.name}
               onChange={handleChange}
               error={errors.name}
-              placeholder="John Doe"
+              placeholder="Enter your full name"
             />
 
             <Input
@@ -118,7 +151,51 @@ const Signup = () => {
               onChange={handleChange}
               error={errors.password}
               placeholder="••••••••"
+              showPasswordToggle={true}
             />
+            
+            {formData.password && (
+              <div className="mt-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex-1 h-2 bg-dark-200 dark:bg-dark-700 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full transition-all ${
+                        passwordStrength.level === 'strong' ? 'w-full bg-editor-green' :
+                        passwordStrength.level === 'medium' ? 'w-2/3 bg-yellow-500' :
+                        'w-1/3 bg-editor-red'
+                      }`}
+                    />
+                  </div>
+                  <span className={`text-xs font-medium ${
+                    passwordStrength.level === 'strong' ? 'text-editor-green' :
+                    passwordStrength.level === 'medium' ? 'text-yellow-600 dark:text-yellow-400' :
+                    'text-editor-red'
+                  }`}>
+                    {passwordStrength.message}
+                  </span>
+                </div>
+                <div className="text-xs text-dark-500 dark:text-dark-400 space-y-1">
+                  <p>Password should contain:</p>
+                  <ul className="ml-2 space-y-0.5">
+                    <li className={/[a-z]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
+                      ✓ Lowercase letters
+                    </li>
+                    <li className={/[A-Z]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
+                      ✓ Uppercase letters
+                    </li>
+                    <li className={/[0-9]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
+                      ✓ Numbers
+                    </li>
+                    <li className={/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password) ? 'text-editor-green' : 'text-dark-500'}>
+                      ✓ Special characters
+                    </li>
+                    <li className={formData.password.length >= 10 ? 'text-editor-green' : 'text-dark-500'}>
+                      ✓ At least 10 characters
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            )}
 
             <Input
               label="Confirm Password"
@@ -128,6 +205,7 @@ const Signup = () => {
               onChange={handleChange}
               error={errors.confirmPassword}
               placeholder="••••••••"
+              showPasswordToggle={true}
             />
           </div>
 

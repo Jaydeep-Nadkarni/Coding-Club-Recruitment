@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser'
 import connectDB from './config/db.js'
 import authRoutes from './routes/auth.js'
 import userRoutes from './routes/users.js'
+import taskRoutes from './routes/tasks.js'
+import notificationRoutes from './routes/notifications.js'
 
 // Load environment variables
 dotenv.config()
@@ -36,6 +38,8 @@ app.get('/api/health', (req, res) => {
 // Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/tasks', taskRoutes)
+app.use('/api/notifications', notificationRoutes)
 
 // Global error handler
 app.use((err, req, res, next) => {

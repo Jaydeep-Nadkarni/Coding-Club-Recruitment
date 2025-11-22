@@ -107,7 +107,7 @@ const Profile = () => {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white dark:bg-dark-800 rounded-lg border border-dark-200 dark:border-dark-700 shadow-sm overflow-hidden">
           {/* Header */}
-          <div className="p-6 border-b border-dark-200 dark:border-dark-700 bg-light-50 dark:bg-dark-800/50">
+          <div className="p-6 border-b border-dark-200 dark:border-dark-700 bg-dark-50 dark:bg-dark-800/50">
             <h1 className="text-2xl font-bold text-dark-900 dark:text-white">Profile Settings</h1>
             <p className="text-dark-600 dark:text-dark-400 mt-1">Manage your account information and preferences</p>
           </div>
@@ -215,6 +215,7 @@ const Profile = () => {
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     error={errors.password}
                     placeholder="Leave blank to keep current"
+                    showPasswordToggle={true}
                   />
 
                   <Input
@@ -225,6 +226,7 @@ const Profile = () => {
                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                     error={errors.confirmPassword}
                     placeholder="Leave blank to keep current"
+                    showPasswordToggle={true}
                   />
                 </div>
               </div>
