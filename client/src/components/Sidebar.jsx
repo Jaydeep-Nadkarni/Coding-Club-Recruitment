@@ -144,3 +144,5 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
 };
 
 export default Sidebar;
+
+//Ashmit has changed this file
