@@ -1,0 +1,19 @@
+NOTES FOR GIT TESTING
+====================
+
+Changes made on Ashmit branch:
+- Created test-file-1.txt
+- Created test-file-2.txt
+- Created TEST_README.md
+- Created TESTING_NOTES.txt
+
+Next steps:
+1. Make some edits to these files (practice making changes)
+2. Use 'git status' to see what changed
+3. Use 'git diff' to see the actual changes
+4. Stage the files with 'git add .'
+5. Commit with 'git commit -m "Your message"'
+6. Push to Ashmit branch with 'git push origin Ashmit'
+7. Then switch to Jaydeep branch and merge
+
+This is a safe space to experiment and learn!

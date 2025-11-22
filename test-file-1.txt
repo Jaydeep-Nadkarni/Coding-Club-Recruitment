@@ -1,0 +1,7 @@
+This is a test file for learning Git operations.
+
+Created on: November 22, 2025
+Branch: Ashmit
+Purpose: Testing Git workflow - creating, committing, pushing, and merging files.
+
+Feel free to edit this file to practice Git changes.
