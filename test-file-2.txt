@@ -1,8 +1,0 @@
-Second test file for Git learning.
-
-This file can be used to:
-- Practice multiple file commits
-- Test how Git tracks different files
-- Learn about staging and committing multiple changes at once
-
-Make changes here to see how they appear in your Git history.
